@@ -5,38 +5,31 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
-@Table(name = "insurance")
+@Table(name = "patient_insurance")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Insurance {
+public class PatientInsurance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "provider", nullable = false)
-    private String provider;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_patient_id", nullable = false, referencedColumnName = "id")
+    private Patient patient;
 
-    @Column(name = "policy_number", nullable = false, length = 100)
-    private String policyNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_insurance_id", nullable = false, referencedColumnName = "id")
+    private Insurance insurance;
 
-    @Column(name = "group_number", length = 100)
-    private String groupNumber;
-
-    @Column(name = "valid_from")
-    private LocalDate validFrom;
-
-    @Column(name = "valid_to")
-    private LocalDate validTo;
+    @Column(name = "is_primary")
+    private Boolean isPrimary = false;
 
     @Column(name = "created_dt", nullable = false, updatable = false)
     private LocalDateTime createdDt;
@@ -55,10 +48,6 @@ public class Insurance {
 
     @Column(name = "version")
     private Integer version = 1;
-
-    // Relationships
-    @OneToMany(mappedBy = "insurance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<PatientInsurance> patientInsurances;
 
     @PrePersist
     protected void onCreate() {

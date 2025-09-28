@@ -5,38 +5,42 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "insurance")
+@Table(name = "address")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Insurance {
-
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "provider", nullable = false)
-    private String provider;
+    @Column(name = "line1", nullable = false)
+    private String line1;
 
-    @Column(name = "policy_number", nullable = false, length = 100)
-    private String policyNumber;
+    @Column(name = "line2")
+    private String line2;
 
-    @Column(name = "group_number", length = 100)
-    private String groupNumber;
+    @Column(name = "city", nullable = false, length = 100)
+    private String city;
 
-    @Column(name = "valid_from")
-    private LocalDate validFrom;
+    @Column(name = "state", length = 100)
+    private String state;
 
-    @Column(name = "valid_to")
-    private LocalDate validTo;
+    @Column(name = "postal_code", length = 20)
+    private String postalCode;
+
+    @Column(name = "country", nullable = false, length = 100)
+    private String country;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private AddressType type = AddressType.HOME;
 
     @Column(name = "created_dt", nullable = false, updatable = false)
     private LocalDateTime createdDt;
@@ -57,8 +61,14 @@ public class Insurance {
     private Integer version = 1;
 
     // Relationships
-    @OneToMany(mappedBy = "insurance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<PatientInsurance> patientInsurances;
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Hospital> hospitals;
+
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<User> users;
+
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Patient> patients;
 
     @PrePersist
     protected void onCreate() {
@@ -69,5 +79,9 @@ public class Insurance {
     @PreUpdate
     protected void onUpdate() {
         lastUpdatedDt = LocalDateTime.now();
+    }
+
+    public enum AddressType {
+        HOME, WORK, BILLING, SHIPPING, OTHER
     }
 }
