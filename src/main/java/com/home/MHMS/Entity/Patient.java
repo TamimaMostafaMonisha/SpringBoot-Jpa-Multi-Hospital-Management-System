@@ -1,5 +1,6 @@
 package com.home.MHMS.Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,7 +37,7 @@ public class Patient {
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @ManyToMany(mappedBy = "patients")
     private Set<Doctor> doctors = new HashSet<>();
 
@@ -44,10 +45,11 @@ public class Patient {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private Insurance insurance;
 
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToMany(mappedBy = "patient", cascade = {CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Appointment> appointments = new ArrayList<>();
 

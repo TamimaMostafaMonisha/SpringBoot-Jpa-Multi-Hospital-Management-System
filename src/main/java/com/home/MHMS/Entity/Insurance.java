@@ -1,5 +1,6 @@
 package com.home.MHMS.Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -57,6 +58,7 @@ public class Insurance {
     private Integer version = 1;
 
     // Relationships
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToMany(mappedBy = "insurance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<PatientInsurance> patientInsurances;
 
@@ -70,6 +72,8 @@ public class Insurance {
     protected void onUpdate() {
         lastUpdatedDt = LocalDateTime.now();
     }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;

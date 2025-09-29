@@ -6,7 +6,10 @@ public class DoctorDTO {
 
     private Long id;
     private String name;
-    private String specialization;
+    private String specialty;
+    private String phone;
+    private String email;
     private Long hospitalId;
-    private Set<Long> patientIds;
+    private DepartmentDTO departmentDTO;
+    //private Set<Long> patientIds;
 }

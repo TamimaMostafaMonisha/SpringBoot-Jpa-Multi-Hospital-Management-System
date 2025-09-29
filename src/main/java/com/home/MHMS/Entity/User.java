@@ -1,5 +1,6 @@
 package com.home.MHMS.Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -74,6 +75,7 @@ public class User {
 //    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private Set<Appointment> doctorAppointments;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToMany(mappedBy = "doctorUser")
     private Set<Appointment> doctorAppointments;
 

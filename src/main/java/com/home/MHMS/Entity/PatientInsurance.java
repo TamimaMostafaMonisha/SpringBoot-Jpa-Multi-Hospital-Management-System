@@ -1,5 +1,6 @@
 package com.home.MHMS.Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,10 +21,12 @@ public class PatientInsurance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_patient_id", nullable = false, referencedColumnName = "id")
     private Patient patient;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_insurance_id", nullable = false, referencedColumnName = "id")
     private Insurance insurance;

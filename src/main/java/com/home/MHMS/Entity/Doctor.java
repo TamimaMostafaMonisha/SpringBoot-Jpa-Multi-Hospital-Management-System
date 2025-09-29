@@ -1,5 +1,6 @@
 package com.home.MHMS.Entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -38,8 +39,10 @@ public class Doctor {
             joinColumns = @JoinColumn(name = "doctor_id"),
             inverseJoinColumns = @JoinColumn(name = "patient_id")
     )
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Set<Patient> patients = new HashSet<>();
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @ManyToMany(mappedBy = "doctors")
     private Set<Department> departments = new HashSet<>();
 
