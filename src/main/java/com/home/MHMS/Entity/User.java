@@ -71,7 +71,10 @@ public class User {
     private Integer version = 1;
 
     // Relationships
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private Set<Appointment> doctorAppointments;
+
+    @OneToMany(mappedBy = "doctorUser")
     private Set<Appointment> doctorAppointments;
 
 //    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -83,17 +86,17 @@ public class User {
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private Set<AuditLog> auditLogs;
 
-//    @PrePersist
-//    protected void onCreate() {
-//        createdDt = LocalDateTime.now();
-//        lastUpdatedDt = LocalDateTime.now();
-//    }
-//
-//    @PreUpdate
-//    protected void onUpdate() {
-//        lastUpdatedDt = LocalDateTime.now();
-//    }
-//
+    @PrePersist
+    protected void onCreate() {
+        createdDt = LocalDateTime.now();
+        lastUpdatedDt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdatedDt = LocalDateTime.now();
+    }
+
     public enum UserRole {
         SUPER_ADMIN, HOSPITAL_ADMIN, DOCTOR, NURSE, RECEPTIONIST, PATIENT
     }

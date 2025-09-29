@@ -13,8 +13,6 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "hospital")
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Hospital {
 
@@ -25,12 +23,12 @@ public class Hospital {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Enumerated(EnumType.STRING) // #prompt
+    @Enumerated(EnumType.STRING)
     private HospitalType type;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "fk_address_id", referencedColumnName = "id")
-//    private Address address;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_address_id")
+    private Address address;
 
     private String phone;
     private String email;
@@ -44,7 +42,7 @@ public class Hospital {
 
     private String accreditation;
 
-    @Column(name = "created_dt", nullable = false, updatable = false)
+    @Column(name = "created_dt", updatable = false)
     private LocalDateTime createdDt;
 
     @Column(name = "last_updated_dt")
@@ -60,7 +58,6 @@ public class Hospital {
     private Boolean isActive = true;
 
 
-    // Relationships
     @ManyToMany
     @JoinTable(
             name = "hospital_department",
@@ -78,5 +75,17 @@ public class Hospital {
 
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Appointment> appointments;
+
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdDt =now;
+        this.lastUpdatedDt = now;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.lastUpdatedDt = LocalDateTime.now();
+    }
 
 }

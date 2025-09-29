@@ -28,18 +28,17 @@ public class Doctor {
     private String specialization;
 
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "hospital_id")
-//    private Hospital hospital;
-//
-//
-//    @ManyToMany
-//    @JoinTable(
-//            name = "doctor_patient",
-//            joinColumns = @JoinColumn(name = "doctor_id"),
-//            inverseJoinColumns = @JoinColumn(name = "patient_id")
-//    )
-//    private Set<Patient> patients = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
+
+    @ManyToMany
+    @JoinTable(
+            name = "doctor_patient",
+            joinColumns = @JoinColumn(name = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "patient_id")
+    )
+    private Set<Patient> patients = new HashSet<>();
 
     @ManyToMany(mappedBy = "doctors")
     private Set<Department> departments = new HashSet<>();

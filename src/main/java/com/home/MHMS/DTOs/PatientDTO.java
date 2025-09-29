@@ -1,5 +1,6 @@
 package com.home.MHMS.DTOs;
 
+import com.home.MHMS.Entity.Address;
 import lombok.Data;
 
 import java.util.Set;
@@ -12,5 +13,6 @@ public class PatientDTO {
     private int age;
     private Long hospitalId;
     private Set<Long> doctorIds;
+    private Address address;
 
 }

@@ -1,11 +1,14 @@
 package com.home.MHMS.Service;
 
+import com.home.MHMS.Config.ModelMapperConfig;
 import com.home.MHMS.DTOs.HospitalDTO;
 import com.home.MHMS.Entity.Department;
 import com.home.MHMS.Entity.Hospital;
 import com.home.MHMS.Repository.DepartmentRepository;
 import com.home.MHMS.Repository.HospitalRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +20,12 @@ public class HospitalService {
 
     private final HospitalRepository hospitalRepository;
     private final DepartmentRepository departmentRepository;
-    private final ModelMapper modelMapper;
+//    private final ModelMapperConfig modelMapper;
+   private final ModelMapper modelMapper;
 
     public HospitalDTO createHospital(HospitalDTO dto) {
         Hospital hospital = modelMapper.map(dto, Hospital.class);
+        System.out.println("Mapped hospital: " + hospital);
 
         if (dto.getDepartmentIds() != null) {
             List<Department> departments = departmentRepository.findAllById(dto.getDepartmentIds());
@@ -50,7 +55,7 @@ public class HospitalService {
 
         hospital.setName(dto.getName());
         hospital.setType(dto.getType());
-        //hospital.setAddress(dto.getAddress());
+        hospital.setAddress(dto.getAddress());
         hospital.setPhone(dto.getPhone());
         hospital.setEmail(dto.getEmail());
         hospital.setTotalBeds(dto.getTotalBeds());

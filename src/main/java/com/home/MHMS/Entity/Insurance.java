@@ -70,4 +70,7 @@ public class Insurance {
     protected void onUpdate() {
         lastUpdatedDt = LocalDateTime.now();
     }
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 }

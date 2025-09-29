@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,15 +27,18 @@ public class Patient {
     private int age;
 
     private String gender;
+    private LocalDate birthDate;
+
+    private String email;
 
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "hospital_id")
-//    private Hospital hospital;
-//
-//
-//    @ManyToMany(mappedBy = "patients")
-//    private Set<Doctor> doctors = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
+
+
+    @ManyToMany(mappedBy = "patients")
+    private Set<Doctor> doctors = new HashSet<>();
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -46,4 +50,8 @@ public class Patient {
 
     @OneToMany(mappedBy = "patient", cascade = {CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Appointment> appointments = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 }

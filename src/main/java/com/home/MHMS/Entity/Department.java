@@ -1,12 +1,12 @@
 package com.home.MHMS.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -20,4 +20,12 @@ public class Department {
     private String name;
     private String code;
     private String description;
+
+    @ManyToMany
+    @JoinTable(
+            name = "department_doctor",
+            joinColumns = @JoinColumn(name = "department_id"),
+            inverseJoinColumns = @JoinColumn(name = "doctor_id")
+    )
+    private Set<Doctor> doctors = new HashSet<>();
 }

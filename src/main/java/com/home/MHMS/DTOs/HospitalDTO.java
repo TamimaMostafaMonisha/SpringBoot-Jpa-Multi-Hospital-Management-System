@@ -1,5 +1,6 @@
 package com.home.MHMS.DTOs;
 
+import com.home.MHMS.Entity.Address;
 import com.home.MHMS.Entity.HospitalType;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ public class HospitalDTO {
     private Long id;
     private String name;
     private HospitalType type;
-    //private String address;
+    private Address address;
     private String phone;
     private String email;
     private Integer totalBeds;
